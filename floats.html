@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <link rel="stylesheet" href="css/floats.css"> -->
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+        }
+        #header{
+            background-color: aqua; 
+            /* height: 40px;   */
+            width: 100%;
+            display: inline-block;
+        }
+        #logo{
+            /* float: left; */
+            display: inline-block;
+        }
+        #nav{
+            float: right;
+            
+            padding-top: 10px;
+            margin-right: 80px;
+        }
+        .menulist{
+            display: inline;
+            padding-right: 30px;
+            margin: 25px;
+            text-align: center;
+            border-right: 3px solid #fff;
+            width:100px;
+        }
+        .clear{
+            clear: both;
+        } 
+        .mainheading{
+            width:700px;
+            margin: auto;
+            text-align: center;
+            padding-top: 20px;
+        }
+        .mainheading h1{
+            padding-bottom: 10px;
+        }
+        .mainbg{
+            background-color: burlywood;
+            height: 600px;
+        }
+        .blocks{
+            width:700px;
+            margin: auto;
+            text-align: center;
+            padding-top: 20px;
+            display: inline-block;
+        }
+        .two, .three{
+            display: inline-block;
+            height:170px;
+            width: 230px;
+            background-color: brown;
+        }
+        .one{
+            display: inline-block;
+            
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <div id="logo">
+           <h1>Logo</h1> 
+        </div>
+        <div id="nav">
+            <div class="menulist">Home</div>
+            <div class="menulist">About</div>
+            <div class="menulist">Contact Us</div>
+            <div class="menulist">Gallery</div>            
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="mainbg">
+    <div class="mainheading">
+        <h1>Digital Marketing Agency</h1>
+        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores voluptate odio ipsam, voluptas error repellendus, temporibus quas qui praesentium a sed molestias id, reprehenderit vero sapiente culpa rem magnam ipsum.  </p>
+    </div>
+    <div class="blocks">
+        <div class="One">one</div>
+        <div class="two">two</div>
+        <div class="three">three</div>
+        <div class="clear"></div>
+    </div>
+    </div>
+</body>
+</html>
