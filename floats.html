@@ -49,24 +49,56 @@
         }
         .mainbg{
             background-color: burlywood;
-            height: 600px;
+            height: 70vh;
         }
         .blocks{
-            width:700px;
+            width:800px;
             margin: auto;
-            text-align: center;
+            /* text-align: center; */
             padding-top: 20px;
-            display: inline-block;
+            /* display: inline-block; */
         }
-        .two, .three{
-            display: inline-block;
-            height:170px;
-            width: 230px;
-            background-color: brown;
+        .one, .two, .three{
+            float:left;
+            height:300px;
+            width: 250px;
+            text-align: center;         
         }
-        .one{
-            display: inline-block;
-            
+        .one{           
+            background-color: rgb(39, 230, 220);            
+        }
+        .two{
+            background-color: rgb(67, 168, 20);            
+        }
+        .three{
+            background-color: rgb(165, 17, 179);           
+        }
+        .spanstyle{
+            display: block;
+            /* border: 1px solid #fff; */
+            background-color: rgba(199, 30, 30, .5);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin: 5px;
+            font-size: 20px;
+        }
+        .one p, .two p, .three p{
+            padding-top: 30px;
+        }
+        .footer{
+            background-color: gray;
+            height: 190px;
+            text-align: center;
+        }
+        .footer>p{
+            display: block;
+            padding-top: 40px;
+            width:400px;
+            margin: auto;
         }
     </style>
 </head>
@@ -89,11 +121,16 @@
         <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores voluptate odio ipsam, voluptas error repellendus, temporibus quas qui praesentium a sed molestias id, reprehenderit vero sapiente culpa rem magnam ipsum.  </p>
     </div>
     <div class="blocks">
-        <div class="One">one</div>
-        <div class="two">two</div>
-        <div class="three">three</div>
+        <div class="one"><span class="spanstyle">01</span> <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates, similique. </p></div>
+        <div class="two"><span class="spanstyle">02</span><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates, similique. </p></div>
+        <div class="three"><span class="spanstyle">03</span><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates, similique.</p></div>
         <div class="clear"></div>
     </div>
+    </div>
+    <div class="footer">
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+        <p> <a href="http://127.0.0.1:5500/index.html">Website Templetes</a> created with <a href="http://127.0.0.1:5500/index.html">website builder</a></p>
+
     </div>
 </body>
 </html>
