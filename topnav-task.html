@@ -14,6 +14,10 @@
             margin: 0px;
             padding: 0px;
             box-sizing: border-box;
+            font-family: 'Nunito', sans-serif;
+        }
+        h1,h2,h3,h4,h5{
+            /* font-family: 'Montserrat', sans-serif; */
         }
         .top-img{
             background-image: url(./images/Dice-4K-HD-Desktop-Wallpaper-for-Dual-Monitor-Desktops-.jpg);
@@ -154,9 +158,11 @@
             text-align: center;
          }
          .ourservice{
-             width: 1080px;
+             width: 100%;
              margin: auto;
              margin-top: 100px;
+             background-color: rgb(245, 245, 245);
+             padding-top: 100px;
          }
          .serviceHeading p:first-child{
              text-align: center;
@@ -179,13 +185,260 @@
              height: 300px;
              margin: auto;
              /* margin-left: 10px; */
-             border: 1px solid gray;
+             border: 1px solid rgba(224, 224, 224, 0.555);
+             background-color: rgb(245, 245, 245);
              display: inline-block;
+             padding: 22px;
+             margin-bottom: 20px;
+             margin-left: 20px;
          }
          .boxContent{
              text-align: center;
-             padding-top: 20px;
+             /* padding-top: 20px; */
+
          }
+         .boxicon{
+             font-size: 32px;
+             padding-bottom: 14px;
+             color: rgb(199, 91, 127);
+             /* position: relative; */
+             /* border-bottom: 2px solid blue; */
+         }
+         .boxhead{
+             font-size: 25px;
+             padding-bottom: 4px;
+             position: relative;
+             /* font-weight: bold; */
+             font-family: 'Montserrat', sans-serif;
+             /* border-bottom: 2px solid blue; */
+             margin-bottom: 30px;
+         }
+         
+         .boxhead:after {
+            position: absolute;
+            content: '';
+            height: 2px;
+            bottom: -10px; 
+            margin: auto;
+            left: -15px;
+            right: 0;
+            width: 30%;
+            background: rgb(184, 34, 84);
+            transition:.5s;
+        }
+	  .box:hover .boxhead:after {
+		  width: 70%;
+          left: -10px;
+		  /* background: orange; */
+    }
+        .boxContent p:nth-child(3){
+            color: grey;
+            font-weight: 100;
+        }
+        .freelancer{
+            width:100%;
+            margin: auto;
+            text-align: center;
+            font-size: 30px;
+            margin-top: 100px;
+        }
+        .freebtn{
+            padding: 8px 18px;
+            background: #e65f78;
+            border: 1px solid #e65f78;
+            border-radius: 5px;
+            color: #fff;
+            margin: 20px ;
+        }
+        .ourClient{
+            width:100%;
+            margin: auto;
+            text-align: center;
+            margin-top: 60px;
+            background-color: rgba(245, 245, 245, 0.836);
+            padding-top: 80px;
+        }
+        .ourClient p:first-child{
+            font-size: 40px;
+            padding-bottom: 20px;
+        }
+        .ourClient img{
+            margin: 20px 0px;
+        }
+       .ourwork{
+           width: 100%;
+           margin: auto;
+           text-align: center;
+           margin-top: 100px;
+       }
+       .ourwork p:nth-child(1){
+           font-size: 40px;
+           padding-bottom: 20px;
+       }
+       .ourwork p:nth-child(2){
+           padding-bottom: 40px;
+       }
+       .workList{
+           margin-bottom: 40px;
+       }
+       .workList li{
+           display: inline-block;
+           padding-left: 20px;
+       }
+       /* .workList:nth-child(1){
+           color: hotpink;
+       } */
+       .workboxContent img{
+           display: inline-block;
+           width: 345px;
+           height: 250px;
+           margin: 6px;
+           border-radius: 5px;
+           /* position: absolute; */
+       }
+       .workContent{
+           display: inline-block;
+           width:1080px;
+           margin: auto;
+       }
+       .workbox{
+           display: inline-block;
+           overflow: hidden;
+           position: relative;
+       }
+       /* .workbox>p{
+           display: none;
+           position: relative;
+       } */
+       /* .workboxContent img:hover{
+            display: inline-block;
+       } */
+       .workboxText{
+        transition: .5s ease;
+        opacity: 1;
+        position: absolute;
+        top: 100%;
+        left: 25%;
+        text-align: center;
+        font-size: 4px;
+       }
+       .workboxText p{
+           
+        font-size: 3px;
+       }
+       .image{
+        opacity: 1;
+        display: block;
+        width: 100%;
+        height: auto;
+        transition: .5s ease;
+        backface-visibility: hidden;
+       }
+       .workbox:hover .image {
+        opacity: 0.3;
+        transform: scale(1.25,1.25);
+        }
+       .workbox:hover .workboxText {
+        opacity: 1;
+        transform: translate(0%, -400%);
+        font-size: 4px;
+        }
+        .ourblog{
+            margin-top: 100px;
+            padding-top: 100px;
+            text-align: center;
+            background-color: rgba(223, 223, 223, 0.178);
+            padding-bottom: 50px;
+        }
+        .bloghead p:nth-child(1){
+            font-size: 40px;
+            padding-bottom: 15px;
+        }
+        .bloghead p:nth-child(2){
+            /* font-size: 40px; */
+            color: grey;
+            padding-bottom: 15px;
+        }
+        .imageBlog{
+            display: inline-block;
+            background: #fff;
+            padding-bottom: 30px;
+            padding-top: 0px;
+        }
+        .imageBox{
+            display: inline-block;
+        }
+        .imageBox img{
+            width: 340px;
+            height: 230px;
+            margin: 15px;
+            border-radius: 8px;
+        }
+        
+        .blogcontent{
+            width: 340px;
+            text-align: left;
+            padding-left: 23px;
+        }
+        .blogcontent h4{
+            font-size: 24px;
+            padding-bottom: 10px;
+        }
+        .blogcontent p{
+            padding-bottom: 15px;
+            color: grey;
+        }
+        .contactUs{
+            width:1080px;
+            margin: auto;
+            /* text-align: center; */
+            margin-top: 100px;
+        }
+        .contactHead{
+            text-align: center;
+        }
+        .contactHead p:nth-child(1){
+            font-size: 40px;
+            padding-bottom: 20px;
+        }
+        .contactUs p:nth-child(2){
+            color: grey;
+            padding-bottom: 20px;
+        }
+        .contactContent{
+            margin-top: 170px;
+            width:345px;
+            text-align: center;
+            display: inline-block;
+            margin:auto;
+            padding-bottom: 40px;
+            padding-top: 40px;
+            
+        }
+        .contacttext{
+            padding-top: 20px;
+        }
+        input{
+            display: inline-block;
+            padding: 8px;
+            margin: 10px;
+        }
+        .contactform{
+            width: 800px;
+            margin: auto;
+            /* display: inline-block; */
+        }
+        .contactinput{
+            width:100%;
+            margin: auto;
+            /* display: inline-block; */
+        }
+        .footerSocial p{
+            /* text-align: center; */
+            width: 100%;
+            margin: auto;
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
@@ -237,35 +490,204 @@
         <div class="serviceContent">
             <div class="box">
                <div class="boxContent">
-                <i class="fas fa-chart-area"></i>
+                <i class="fas fa-chart-area boxicon"></i>
+                <p class="boxhead"> Graphic Designer</p>
+                <p> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit, quae. Lorem ipsum dolor sit amet.</p>
                </div>
             </div>
             <div class="box">
                <div class="boxContent">
-                <i class="fas fa-mug-hot"></i>
+                <i class="fas fa-mug-hot boxicon"></i>
+                <p class="boxhead"> Ulimited Color</p>
+                <p> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit, quae. Lorem ipsum dolor sit amet.</p>
                </div>
             </div>
             <div class="box">
                <div class="boxContent">
-                <i class="far fa-clone"></i>
+                <i class="far fa-clone boxicon"></i>
+                <p class="boxhead"> Media Marketing</p>
+                <p> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit, quae. Lorem ipsum dolor sit amet.</p>
                </div>
             </div>
             <div class="box">
                <div class="boxContent">
-                <i class="fas fa-chart-area"></i>
+                <i class="fas fa-cloud-upload-alt boxicon"></i>
+                <p class="boxhead"> Unlimited Wifi</p>
+                <p> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit, quae. Lorem ipsum dolor sit amet.</p>
                </div>
             </div>
             <div class="box">
                <div class="boxContent">
-                <i class="fas fa-tv"></i>
+                <i class="fas fa-tv boxicon"></i>
+                <p class="boxhead"> Responsive Design</p>
+                <p> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit, quae. Lorem ipsum dolor sit amet.</p>
                </div>
             </div>
             <div class="box">
                <div class="boxContent">
-                <i class="far fa-clipboard"></i>
+                <i class="far fa-clipboard boxicon"></i>
+                <p class="boxhead"> Easy to customize</p>
+                <p> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit, quae. Lorem ipsum dolor sit amet.</p>
                </div>
             </div>
             
+        </div>
+    </div>
+    <div class="freelancer">
+        <h2>I Am available For Freelancer</h2>
+        <button class="freebtn">HIRE ME!</button>
+    </div>
+    <div class="ourClient">
+        <p>Our <span style="font-weight: bold;">Client</span></p>
+        <p style="color: grey;">Lorem ipsum dolor sit, amet consectetur adipisicing elit. <br> Ad, voluptates?Lorem ipsum dolor sit amet.</p>
+        <img src="./images/mbri-quote-left.svg" alt="leftquote" width="45px"><br>
+        <img style="border-radius: 50%;" src="./images/manblack.jpg" alt="black" width="100px" height="95px"><br>
+        <q style="color: grey;">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odit tempora doloribus, <br> alias a blanditiis asperiores illum accusantium dolorem nihil saepe.</q>
+        <p style="padding-top:20px;"> &mdash; Ebony Verty, <b>Evanto</b> </p>
+        <div class="slide">
+        <div class="slideicon"></div>
+        <div class="slideicon"></div>
+        <div class="slideicon"></div>
+        </div>
+    </div>
+    <div class="ourwork">
+        <p>Our <span style="font-weight: bold;">Works</span></p>
+        <p style="color: grey;">Lorem ipsum dolor sit, amet consectetur adipisicing elit. <br> Ad, voluptates?Lorem ipsum dolor sit amet.</p>
+        <ul class="workList">
+            <li style="color:#fff;background:hotpink;padding: 5px 20px;border-radius: 14px;">ALL</li>
+            <li>SEO</li>
+            <li>WEBDESIGN</li>
+            <li>WORK</li>
+            <li>WORDPRESS</li>
+        </ul>
+        <div class="workContent">
+            <div class="workbox">
+               <div class="workboxContent">
+                <img src="./images/1.jpg" alt="image" class="image">
+               </div>
+               <div class="workboxText">
+                <p style="font-size: 14px;">Lorem ipsum dolor sit.</p>
+               </div>
+            </div>
+            <div class="workbox">
+                <div class="workboxContent">
+                    <img src="./images/2.jpg" alt="image" class="image">
+                   </div>
+                   <div class="workboxText">
+                    <p  style="font-size: 14px;">Lorem ipsum dolor sit.</p>
+                   </div>
+            </div>
+            <div class="workbox">
+                <div class="workboxContent">
+                    <img src="./images/3.jpg" alt="image" class="image">
+                   </div>
+                   <div class="workboxText">
+                    <p style="font-size: 14px;">Lorem ipsum dolor sit.</p>
+                   </div>
+            </div>
+            <div class="workbox">
+                <div class="workboxContent">
+                    <img src="./images/4.jpg" alt="image" class="image">
+                   </div>
+                   <div class="workboxText">
+                    <p  style="font-size: 14px;">Lorem ipsum dolor sit.</p>
+                   </div>
+            </div>
+            <div class="workbox">
+                <div class="workboxContent">
+                    <img src="./images/5.jpg" alt="image" class="image">
+                   </div>
+                   <div class="workboxText">
+                    <p style="font-size: 14px;">Lorem ipsum dolor sit.</p>
+                   </div>
+            </div>
+            <div class="workbox">
+                <div class="workboxContent">
+                    <img src="./images/6.jpg" alt="image" class="image">
+                   </div>
+                   <div class="workboxText">
+                    <p style="font-size: 14px;">Lorem ipsum dolor sit.</p>
+                   </div>
+            </div>
+        </div>
+    </div>
+    <div class="ourblog">
+        <div class="bloghead">
+            <p>Our <span style="font-weight:bolder">Blog</span></p>
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fugit ipsam quia dolorum temporibus soluta quisquam <br> officiis aspernatur perferendis non facere.</p>
+        </div>
+        <div class="imageBlog">
+            <div class="imageBox">
+                <img src="./images/blog-1.jpg" alt="/">
+                <div class="blogcontent">
+                    <h4>They are many variations</h4>
+                    <p>11 March 2018 <span style="color: hotpink;">By Kerri</span></p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A dicta, et temporibus odit adipisci beatae eligendi error accusamus maiores architecto?</p>
+                    <p>Read more...</p>
+                </div>
+            </div>
+           
+            <div class="imageBox">
+                <img src="./images/blog-2.jpg" alt="/">
+                <div class="blogcontent">
+                    <h4>They are many variations</h4>
+                    <p>11 March 2018 <span style="color: hotpink;">By Kerri</span></p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A dicta, et temporibus odit adipisci beatae eligendi error accusamus maiores architecto?</p>
+                    <p>Read more...</p>
+                </div>
+            </div>
+            <div class="imageBox">
+                <img src="./images/blog-3.jpg" alt="/">
+                <div class="blogcontent">
+                    <h4>They are many variations</h4>
+                    <p>11 March 2018 <span style="color: hotpink;">By Kerri</span></p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A dicta, et temporibus odit adipisci beatae eligendi error accusamus maiores architecto?</p>
+                    <p>Read more...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="contactUs">
+        <div class="contactHead">
+            <p><span style="font-weight:bolder">Contact</span> Us</p>
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fugit ipsam quia dolorum temporibus soluta quisquam <br> officiis aspernatur perferendis non facere.</p>
+        </div>
+        <div class="contactContent">
+            <div class="contactimg"><i style="color:#e65f78;font-size: 50px;" class="fas fa-mobile-alt"></i></div>
+            <div class="contacttext">
+                <p>Call Us On</p>
+                <p>+985 123 7856</p>
+            </div>
+        </div>
+        <div class="contactContent">
+            <div class="contactimg"><i style="color:#e65f78;font-size: 50px;" class="fas fa-envelope-open"></i></div>
+            <div class="contacttext">
+                <p>Email Us At</p>
+                <p>Website.Kerri@gmail.com</p>
+            </div>
+        </div>
+        <div class="contactContent">
+            <div class="contactimg"><i style="color:#e65f78;font-size: 50px;" class="fas fa-map-marker-alt"></i></div>
+            <div class="contacttext">
+                <p>Visit Office</p>
+                <p>202, Grasselli Street , Conway.</p>
+            </div>
+        </div>
+        <div class="contactform">
+            <input class="contactinput" style="width:49%;margin-bottom: 8px;" type="text" name="Name" placeholder="Your name..">
+            <input class="contactinput" style="width:49%" type="text" name="Name" placeholder="Your email..">
+            <input class="contactinput" style="width:99%;margin-bottom: 8px;" type="text" name="Name" placeholder="Your Subject..">
+            <textarea style="width:99%;margin-bottom: 8px;" name="w3review" rows="4" cols="50">Your Message..</textarea>
+            <button class="freebtn" style="float: right;">Submit</button>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="footerSocial">
+            <p><i class="fab fa-facebook-f"></i></p>
+            <p><i class="fab fa-twitter"></i></p>
+            <p><i class="fab fa-linkedin-in"></i></p>
+            <p><i class="fab fa-instagram"></i></p>
         </div>
     </div>
 </body>
