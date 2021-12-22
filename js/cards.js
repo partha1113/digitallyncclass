@@ -232,17 +232,17 @@ var users = [
   ];
 
 
-  let mainwrap = document.getElementById("mainwrap");
+let mainwrap = document.getElementById("mainwrap");
 let cardInfo = "";
 for (let x = 0; x < users.length; x++) {
-  const user = users[x];
+  const user = users[x]; 
   cardInfo += '<div class="card"><div class="cardLeft">'
   cardInfo += '<div class="cardImg"><img src="images/user1.png" alt="user" width="120px"></div>'
-   cardInfo +='<p id="user0">' + user.name + '</p>'
-   cardInfo += '<p id="useremail0">' + user.email + '</p></div>'
- cardInfo += '<div class="cardRight">'
- cardInfo += '<p id="zipcode0">' + user.address.zipcode + '</p><p>Zipcode</p>'
- cardInfo += '<p id="website0">' + user.website + '</p><p>Website</p>'  
- cardInfo += '<p id="phone">' + user.company.name + '</p><p>Company Name</p></div></div>'  
+  cardInfo +='<p id="user0">' + user.name + '</p>'
+  cardInfo += '<p id="useremail0">' + user.email + '</p></div>'
+  cardInfo += '<div class="cardRight">'
+  cardInfo += '<p id="zipcode0">' + user.address.zipcode + '</p><p>Zipcode</p>'
+  cardInfo += '<p id="website0">' + user.website + '</p><p>Website</p>'  
+  cardInfo += '<p id="phone">' + user.company.name + '</p><p>Company Name</p></div></div>'  
 }
 mainwrap.innerHTML= cardInfo;
