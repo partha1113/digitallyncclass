@@ -1,0 +1,24 @@
+js:
+
+import { LightningElement,wire } from 'lwc';
+import { getPicklistValues } from 'lightning/uiObjectInfoApi';
+import Case_Category__c from '@salesforce/schema/Case.Case_Category__c';
+import { getObjectInfo } from 'lightning/uiObjectInfoApi';
+import CASE_OBJECT from '@salesforce/schema/Case';
+
+export default class ContactSupport extends LightningElement {
+
+    @wire(getObjectInfo, { objectApiName: CASE_OBJECT })
+    contactInfo;
+
+    @wire(getPicklistValues,
+        {
+            recordTypeId: '$contactInfo.data.defaultRecordTypeId',
+            fieldApiName: Case_Category__c
+        }
+    )
+    caseOriginValues;
+
+}
+
+
