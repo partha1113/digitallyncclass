@@ -1,12 +1,47 @@
+
+Conversation opened. 3 messages. 1 message unread.
+
+Skip to content
+Using Gmail with screen readers
+1 of 46,700
+(no subject)
+Inbox
+
+partha sarathi
+Mon, Oct 3, 5:47 PM (11 days ago)
+https://meet.google.com/wzo-nmxs-zmy
+
+kalyan k g c
+AttachmentsThu, Oct 13, 11:00 AM (1 day ago)
+ 
+
+kalyan k g c
+Attachments
+10:50 AM (1 hour ago)
+to me
+
+
+Attachments area
 js: 
 
-import { LightningElement,wire } from 'lwc';
+import { LightningElement,wire,track } from 'lwc';
 import { getPicklistValues } from 'lightning/uiObjectInfoApi';
-import Origin from '@salesforce/schema/Case.Origin';
+import CaseType from '@salesforce/schema/Case.CaseType__c';
+import CaseValue from '@salesforce/schema/Case.CaseValue__c';
+
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import CASE_OBJECT from '@salesforce/schema/Case';
 
-export default class ContactSupport extends LightningElement {
+export default class Test extends LightningElement {
+
+    @track openModal = false;
+
+    showModal() {
+        this.openModal = true;
+    }
+    closeModal() {
+        this.openModal = false;
+    }
 
     @wire(getObjectInfo, { objectApiName: CASE_OBJECT })
     contactInfo;
@@ -14,31 +49,71 @@ export default class ContactSupport extends LightningElement {
     @wire(getPicklistValues,
         {
             recordTypeId: '$contactInfo.data.defaultRecordTypeId',
-            fieldApiName: Origin
+            fieldApiName: CaseType
         }
     )
     caseOriginValues;
+
+
+    @wire(getPicklistValues,
+        {
+            recordTypeId: '$contactInfo.data.defaultRecordTypeId',
+            fieldApiName: CaseValue
+        }
+    )
+    caseOriginValue;
 
 }
 
 
 
+
 html : 
 
-<template>
-    <lightning-card>
-        <template if:true={caseOriginValues.data}>
-        <lightning-combobox name="progress" label="Category" value={value} placeholder="Select Request Category" 
-                options={caseOriginValues.data.values} onchange={handleChange}>
-        </lightning-combobox>
-        <lightning-textarea name="Description" label="Description"  onchange={onChangeDescription} ></lightning-textarea>
-        </template>
-        <div class="slds-p-top_medium">
-            <div class="modal-footer slds-modal__footer slds-size_1-of-1">
-                    <div class="forceChangeRecordTypeFooter">
-                    <lightning-button variant="brand" label="Submit" onclick={saveRecord}></lightning-button>
-                    </div>
-            </div>
-        </div>
+
+
+
+<template>  
+    <lightning-card  title="Contact Support Form">
+        <lightning-button label="Contactus" slot="actions" onclick={showModal}></lightning-button>  
     </lightning-card>
-</template>
+    <template if:true={openModal}>  
+      <div class="slds-modal slds-fade-in-open slds-backdrop">  
+        <div class="slds-modal__container">  
+          <!------HEADER Section-->  
+          <div class="slds-modal__header">  
+            <lightning-button-icon icon-name="utility:close" alternative-text="Close this window" size="large"  
+              variant="bare-inverse" onclick={closeModal} class="slds-modal__close">  
+            </lightning-button-icon>  
+            <h2>Contact Support Form</h2>  
+          </div>  
+          <!------Body Section-->  
+          <div class="slds-modal__content slds-p-around_medium">   
+                <template if:true={caseOriginValues.data}>
+
+                <lightning-combobox name="progress" label="Category" value={value} placeholder="Select Request Category" 
+                        options={caseOriginValues.data.values} onchange={handleChange}>
+                </lightning-combobox>
+               
+
+                </template>
+
+                <template if:true={caseOriginValue.data}>
+                    <lightning-combobox name="progress" label="Client" value={value} placeholder="Select Client" 
+                    options={caseOriginValue.data.values} onchange={handleChange}>
+                   </lightning-combobox>
+                </template>
+
+                <lightning-textarea name="Description" label="Description"  onchange={onChangeDescription} ></lightning-textarea>
+
+                
+          </div>  
+          <!------Footer Section-->  
+          <div class="slds-modal__footer">  
+            <lightning-button icon-name="utility:close" label="close" variant="brand" onclick={closeModal}>  
+            </lightning-button>  
+          </div>  
+        </div>  
+      </div>  
+    </template>  
+  </template>  
