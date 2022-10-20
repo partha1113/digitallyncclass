@@ -34,7 +34,7 @@ html:
                     </lightning-combobox>                     
                     </template>
                     <div class="slds-grid slds-gutters">
-                        <div class="slds-col">
+               <!-- <div class="slds-col">
                     <template if:true={caseOriginValue.data}>                    
                         <lightning-combobox name="progress" label="Client" value={value} placeholder="Select Client" 
                         options={caseOriginValue.data.values} onchange={handleChange}>
@@ -48,7 +48,7 @@ html:
                         options={caseOriginValue.data.values} onchange={handleChange}>
                        </lightning-combobox>                
                     </template>
-                </div>
+                </div>-->
                
                 </div>
                 <div>
@@ -66,7 +66,7 @@ html:
               
               <!---Footer Section-->  
               <div class="slds-modal__footer ">  
-                <lightning-button class="slds-align_absolute-center" label="SUBMIT REQUEST" variant="brand" onclick={handleClick}>  
+                <lightning-button class="slds-align_absolute-center" label="SUBMIT REQUEST" variant="brand" onclick={saverecord}>  
                 </lightning-button>  
               </div>  
             </div>  
@@ -79,55 +79,83 @@ html:
       JS:
       
       
-      import { LightningElement,wire,track,api } from 'lwc';
+import { LightningElement,wire,track,api } from 'lwc';
 import { getPicklistValues } from 'lightning/uiObjectInfoApi';
-import Case_Category__c from '@salesforce/schema/Case.Case_Category__c';
-//import CaseValue from '@salesforce/schema/Case.CaseValue__c';
+import CaseCategory from '@salesforce/schema/Case.Case_Category__c';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import CASE_OBJECT from '@salesforce/schema/Case';
 import {ShowToastEvent} from 'lightning/platformShowToastEvent';
 
 import DESCRIPTION_FIELD from "@salesforce/schema/Case.Description";
 import { createRecord } from "lightning/uiRecordApi";
+import { NavigationMixin } from 'lightning/navigation';
 
 
 
-export default class ContactSupport extends LightningElement {
+
+export default class ContactSupport extends NavigationMixin(LightningElement) {
+
    @track description;
     @track openModal = false;
     @api recordId;
+	@track category;
    
+   
+   
+   handleChange(event)
+   {
+   this.category=event.target.value;
+   }
 
-    handleClick() {
-        console.log('1');
-  
-        //3. Map the data to the fields
+    saverecord() {
+        
         const fields = {};
     
         fields[DESCRIPTION_FIELD.fieldApiName] = this.description;
+		fields[CaseCategory.fieldApiName] = this.category;
+
       
-        console.log('2'+ fields);
+        const recordInput = { apiName: CASE_OBJECT.objectApiName, fields };
 
-            //4. Prepare config object with object and field API names 
-        const recordInput = {
-          apiName: CASE_OBJECT.objectApiName,
-          fields: fields
-        };
-            
-            //5. Invoke createRecord by passing the config object
-        createRecord(recordInput).then((record) => {
+        createRecord(recordInput)
+        .then(record => {
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    title: 'Success',
+                    message: 'Case created',
+                    variant: 'success',
+                }),
+            );
+            this[NavigationMixin.Navigate]({
+                type: 'standard__recordPage',
+                attributes: {
+                    recordId: record.id,
+                    objectApiName: 'Case',
+                    actionName: 'view'
+                },
+            });
 
-          console.log('created'+ record);
-          this.openModal = false;
 
+
+        })
+        .catch(error => {
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    title: 'Error creating record',
+                    message: error.body.message,
+                    variant: 'error',
+                }),
+            );
         });
+	  
+
+      
       }
     
 
 
     onChangeDescription(event) {
         this.description = event.target.value;
-        console.log(this.description);
         
     }
 
@@ -163,23 +191,10 @@ export default class ContactSupport extends LightningElement {
     @wire(getPicklistValues,
         {
             recordTypeId: '$contactInfo.data.defaultRecordTypeId',
-            fieldApiName: Case_Category__c
+            fieldApiName: CaseCategory
         }
     )
     caseOriginValues;
 
-
-    @wire(getPicklistValues,
-        {
-            recordTypeId: '$contactInfo.data.defaultRecordTypeId',
-            fieldApiName: Case_Category__c
-        }
-    )
-    caseOriginValue;
-
-
-
-
-  
 
 }
