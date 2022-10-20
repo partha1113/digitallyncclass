@@ -1,178 +1,37 @@
-html:
-
-<template> 
-    <div class="slds-grid slds-card slds-clearfix slds-grid_align_spread">         
-    <lightning-card  class="spacing-large slds-float_left" title="Open a Support Case" icon-name="utility:copy">
-        <p class="slds-p-horizontal_large">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>   
-        <lightning-button class="slds-float_right" label="Contactus" slot="actions" onclick={showModal}></lightning-button>  
-    </lightning-card>
-</div>
-    <template if:true={openModal}>  
-      <div class="slds-modal slds-fade-in-open slds-backdrop">  
-        <div class="slds-modal__container">  
-          <!---HEADER Section-->  
-          <div class="slds-modal__header">  
-             
-            <h2 class="head-text">Contact Support Form</h2>  
-            <lightning-button-icon icon-name="utility:close" alternative-text="Close this window" size="large"  
-              variant="bare-inverse" onclick={closeModal} class="slds-modal__close">  
-            </lightning-button-icon> 
-          </div>  
-          <!---Body Section-->  
-          <div class="slds-modal__content slds-p-around_medium">   
-                <template if:true={caseOriginValues.data}>
-                        <a href="#"><u><b>Track My Cases</b></u></a>
-                <lightning-combobox name="progress" label="Category" value={value} placeholder="Select Request Category" 
-                        options={caseOriginValues.data.values} onchange={handleChange}>
-                </lightning-combobox>
-               
-
-                </template>
-                <div class="slds-grid slds-gutters">
-                    <div class="slds-col">
-                <template if:true={caseOriginValue.data}>                    
-                    <lightning-combobox name="progress" label="Client" value={value} placeholder="Select Client" 
-                    options={caseOriginValue.data.values} onchange={handleChange}>
-                   </lightning-combobox>                
-                </template>
-            </div>
-            
-            <div class="slds-col">
-                <template if:true={caseOriginValue.data}>                    
-                    <lightning-combobox name="progress" label="Card" value={value} placeholder="Select Card" 
-                    options={caseOriginValue.data.values} onchange={handleChange}>
-                   </lightning-combobox>                
-                </template>
-            </div>
-            <div>
-                <lightning-textarea name="Description" label="Description"  onchange={onChangeDescription} ></lightning-textarea>
-
-            </div>
-            </div>
-                <lightning-file-upload
-                name="fileUploader"
-                accept={acceptedFormats}
-                record-id={recordId}
-                onuploadfinished={handleUploadFinished}
-                multiple>
-            </lightning-file-upload>
-            </div> 
-          
-          <!---Footer Section-->  
-          <div class="slds-modal__footer ">  
-            <lightning-button class="slds-align_absolute-center" label="SubmitCase1" variant="brand" onclick={handleClick}>  
-            </lightning-button>  
-          </div>  
-        </div>  
-      </div>  
-    </template>  
-    
-  </template>  
-
-
-JS:
-
-import { LightningElement,wire,track,api } from 'lwc';
-import { getPicklistValues } from 'lightning/uiObjectInfoApi';
-import Case_Category__c from '@salesforce/schema/Case.Case_Category__c';
-//import CaseValue from '@salesforce/schema/Case.CaseValue__c';
-import { getObjectInfo } from 'lightning/uiObjectInfoApi';
-import CASE_OBJECT from '@salesforce/schema/Case';
-import {ShowToastEvent} from 'lightning/platformShowToastEvent';
-
-import DESCRIPTION_FIELD from "@salesforce/schema/Case.Description";
-import { createRecord } from "lightning/uiRecordApi";
-
-
-
-export default class ContactSupport extends LightningElement {
-   @track description;
-    @track openModal = false;
-    @api recordId;
-   
-
-    handleClick() {
-        console.log('1');
-  
-        //3. Map the data to the fields
+ createAccount(){
         const fields = {};
-    
-        fields[DESCRIPTION_FIELD.fieldApiName] = this.description;
-      
-        console.log('2'+ fields);
+        fields[NAME_FIELD.fieldApiName] = this.name;
+        fields[PHONE_FIELD.fieldApiName] = this.phone;
+        const recordInput = { apiName: ACCOUNT_OBJECT.objectApiName, fields };
+        createRecord(recordInput)
+        .then(account => {
+            this.accountId = account.id;
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    title: 'Success',
+                    message: 'Account created',
+                    variant: 'success',
+                }),
+            );
+            this[NavigationMixin.Navigate]({
+                type: 'standard__recordPage',
+                attributes: {
+                    recordId: account.id,
+                    objectApiName: 'Account',
+                    actionName: 'view'
+                },
+            });
 
-            //4. Prepare config object with object and field API names 
-        const recordInput = {
-          apiName: CASE_OBJECT.objectApiName,
-          fields: fields
-        };
-            
-            //5. Invoke createRecord by passing the config object
-        createRecord(recordInput).then((record) => {
 
-          console.log('created'+ record);
-          this.openModal = false;
 
+        })
+        .catch(error => {
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    title: 'Error creating record',
+                    message: error.body.message,
+                    variant: 'error',
+                }),
+            );
         });
-      }
-    
-
-
-    onChangeDescription(event) {
-        this.description = event.target.value;
-        console.log(this.description);
-        
     }
-
-    showModal() {
-        this.openModal = true;
-    }
-    closeModal() {
-        this.openModal = false;
-    }
-    
-    get acceptedFormats() {
-        return ['.pdf', '.png','.jpg','.jpeg'];
-    }
-    handleUploadFinished(event) {
-        // Get the list of uploaded files
-        const uploadedFiles = event.detail.files;
-        let uploadedFileNames = '';
-        for(let i = 0; i < uploadedFiles.length; i++) {
-            uploadedFileNames += uploadedFiles[i].name + ', ';
-        }
-        this.dispatchEvent(
-            new ShowToastEvent({
-                title: 'Success',
-                message: uploadedFiles.length + ' Files uploaded Successfully: ' + uploadedFileNames,
-                variant: 'success',
-            }),
-        );
-    }
-
-    @wire(getObjectInfo, { objectApiName: CASE_OBJECT })
-    contactInfo;
-
-    @wire(getPicklistValues,
-        {
-            recordTypeId: '$contactInfo.data.defaultRecordTypeId',
-            fieldApiName: Case_Category__c
-        }
-    )
-    caseOriginValues;
-
-
-    @wire(getPicklistValues,
-        {
-            recordTypeId: '$contactInfo.data.defaultRecordTypeId',
-            fieldApiName: Case_Category__c
-        }
-    )
-    caseOriginValue;
-
-
-
-
-  
-
-}
