@@ -1,7 +1,10 @@
+html:
+
+
 <template>
    
     <div class="slds-grid slds-card slds-grid_align_spread">         
-        <lightning-card  class="blue-icon spacing-large slds-float_left slds-col" title="Open a Support Case" icon-name="utility:news">
+        <lightning-card  class="spacing-large slds-float_left slds-col" title="Open a Support Case" icon-name="utility:news">
             <!-- <span>(average response time is less than 4 hours)</span> -->
             <p class="slds-p-horizontal_large">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>              
         </lightning-card>
@@ -13,9 +16,9 @@
               <!---HEADER Section-->  
               <div class="slds-modal__header" style="display:flex"> 
                 <div id="variants" class="slds-p-vertical_x-small slds-grid slds-grid_vertical-align-left">                                
-                    <lightning-icon icon-name="utility:news" alternative-text="Contact" variant="brand" class="blue-icon slds-col slds-p-right_small"> </lightning-icon>
-                    <p class="text">
-                    <lightning-formatted-text class="slds-form-element__label slds-text-heading_medium slds-col" value="Open a Support Case"></lightning-formatted-text></p>
+                    <lightning-icon icon-name="utility:news" alternative-text="Contact" variant="brand" class="slds-col slds-p-right_small"> </lightning-icon>
+                    
+                    <lightning-formatted-text class="slds-form-element__label slds-text-heading_medium slds-col" value="Open a Support Case"></lightning-formatted-text>
                  </div>    
                
                 <lightning-button-icon icon-name="utility:close" alternative-text="Close this window" size="large"  
@@ -34,18 +37,18 @@
                         <div class="slds-col">
                     <template if:true={caseOriginValue.data}>                    
                         <lightning-combobox name="progress" label="Client" value={value} placeholder="Select Client" 
-                        options={caseOriginValue.data.values} onchange={handleChange1}>
+                        options={caseOriginValue.data.values} onchange={handleChange}>
                        </lightning-combobox>                
                     </template>
                 </div>
                 
-                <!-- <div class="slds-col">
+                <div class="slds-col">
                     <template if:true={caseOriginValue.data}>                    
                         <lightning-combobox name="progress" label="Card" value={value} placeholder="Select Card" 
                         options={caseOriginValue.data.values} onchange={handleChange}>
                        </lightning-combobox>                
                     </template>
-                </div> -->
+                </div>
                
                 </div>
                 <div>
@@ -63,7 +66,7 @@
               
               <!---Footer Section-->  
               <div class="slds-modal__footer ">  
-                <lightning-button class="slds-align_absolute-center" label="SUBMIT" variant="brand" onclick={handleClick}>  
+                <lightning-button class="slds-align_absolute-center" label="SUBMIT REQUEST" variant="brand" onclick={handleClick}>  
                 </lightning-button>  
               </div>  
             </div>  
@@ -73,12 +76,12 @@
       </template> 
       
       
+      JS:
       
-      js:
       
       import { LightningElement,wire,track,api } from 'lwc';
 import { getPicklistValues } from 'lightning/uiObjectInfoApi';
-import CATEGORY_FIELD from '@salesforce/schema/Case.Case_Category__c';
+import Case_Category__c from '@salesforce/schema/Case.Case_Category__c';
 //import CaseValue from '@salesforce/schema/Case.CaseValue__c';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import CASE_OBJECT from '@salesforce/schema/Case';
@@ -93,7 +96,7 @@ export default class ContactSupport extends LightningElement {
    @track description;
     @track openModal = false;
     @api recordId;
-   @track category;
+   
 
     handleClick() {
         console.log('1');
@@ -101,9 +104,8 @@ export default class ContactSupport extends LightningElement {
         //3. Map the data to the fields
         const fields = {};
     
-        
         fields[DESCRIPTION_FIELD.fieldApiName] = this.description;
-        fields[CATEGORY_FIELD.fieldApiName] = this.category;
+      
         console.log('2'+ fields);
 
             //4. Prepare config object with object and field API names 
@@ -113,49 +115,13 @@ export default class ContactSupport extends LightningElement {
         };
             
             //5. Invoke createRecord by passing the config object
-        // createRecord(recordInput).then((record) => {
+        createRecord(recordInput).then((record) => {
 
-        //   console.log('created'+ record);
-        //   this.openModal = false;
+          console.log('created'+ record);
+          this.openModal = false;
 
-        // });
-
-
-
-        
-            createRecord(recordInput)
-            .then(record => {
-                // this.accountId = record.id;
-                this.dispatchEvent(
-                    new ShowToastEvent({
-                        title: 'Success',
-                        message: 'Account created',
-                        variant: 'success',
-                    }),
-                );
-                this[NavigationMixin.Navigate]({
-                    type: 'standard__recordPage',
-                    attributes: {
-                        recordId: record.id,
-                        objectApiName: 'Case',
-                        actionName: 'view'
-                    },
-                });
-    
-    
-    
-            })
-            .catch(error => {
-                this.dispatchEvent(
-                    new ShowToastEvent({
-                        title: 'Error creating record',
-                        message: error.body.message,
-                        variant: 'error',
-                    }),
-                );
-            });
-        }
-      
+        });
+      }
     
 
 
@@ -190,9 +156,6 @@ export default class ContactSupport extends LightningElement {
             }),
         );
     }
-    handleChange(event){
-        this.category= event.target.value;
-    }
 
     @wire(getObjectInfo, { objectApiName: CASE_OBJECT })
     contactInfo;
@@ -206,12 +169,17 @@ export default class ContactSupport extends LightningElement {
     caseOriginValues;
 
 
-    // @wire(getPicklistValues,
-    //     {
-    //         recordTypeId: '$contactInfo.data.defaultRecordTypeId',
-    //         fieldApiName: Case_Category__c
-    //     }
-    // )
-    // caseOriginValue;
+    @wire(getPicklistValues,
+        {
+            recordTypeId: '$contactInfo.data.defaultRecordTypeId',
+            fieldApiName: Case_Category__c
+        }
+    )
+    caseOriginValue;
+
+
+
+
+  
 
 }
