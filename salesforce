@@ -35,28 +35,29 @@ export default class YourLWCComponent extends LightningElement {
 
 ApexClass: =====================
 
-public class GetFieldsRecords {
-  public class CustomMetadataWrapper {
-    public String fieldsApi;
-    public String helpText;
-
-    public CustomMetadataWrapper(String fieldsApi, String helpText) {
-      this.fieldsApi = fieldsApi;
-      this.helpText = helpText;
+public with sharing class getFieldsRecords {
+    public static List<clientDueDiligenceWrapper> getMetadataRecords() {
+        List<clientDueDiligenceWrapper> metadataRecords = new List<clientDueDiligenceWrapper>();
+        
+        // Retrieve records from custom metadata
+        List<clientDueDiligence__mdt> records = [SELECT Name, FieldsAPI, FieldHelp FROM clientDueDiligence__mdt];
+        
+        // Create wrapper instances for each record
+        for (clientDueDiligence__mdt record : records) {
+            clientDueDiligenceWrapper wrapper = new clientDueDiligenceWrapper();
+            wrapper.name = record.Name;
+            wrapper.fieldsAPI = record.FieldsAPI;
+            wrapper.fieldHelp = record.FieldHelp;
+            metadataRecords.add(wrapper);
+        }
+        
+        return metadataRecords;
     }
-  }
-
-  public static List<CustomMetadataWrapper> fetchClientDueDiligenceMetadata() {
-    List<CustomMetadataWrapper> metadataList = new List<CustomMetadataWrapper>();
-
-    // Query the custom metadata records
-    List<ClientDueDiligence__mdt> records = [SELECT FieldsApi__c, HelpText__c FROM ClientDueDiligence__mdt];
-
-    for (ClientDueDiligence__mdt record : records) {
-      CustomMetadataWrapper metadata = new CustomMetadataWrapper(record.FieldsApi__c, record.HelpText__c);
-      metadataList.add(metadata);
+    
+    public class clientDueDiligenceWrapper {
+        public String name;
+        public String fieldsAPI;
+        public String fieldHelp;
     }
-
-    return metadataList;
-  }
 }
+
