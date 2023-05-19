@@ -1,23 +1,30 @@
 html:=====================================================================
 <template>
-    <lightning-card title="Client Due Diligence">
-        <template if:true={clientDueDiligenceRecords.data}>
-            <template for:each={clientDueDiligenceRecords.data} for:item="record">
-                <lightning-input label={record.FieldsApi} value={record.HelpText} key={record.FieldsApi}></lightning-input>
+    <lightning-card title="Custom Metadata Example">
+        <lightning-record-edit-form object-api-name="Client_Due_Diligence__mdt">
+            <template for:each={clientDueDiligenceRecords} for:item="record">
+                <lightning-input-field key={record.name} field-name={record.fieldsAPI}></lightning-input-field>
             </template>
-        </template>
+            <lightning-button type="submit" label="Save"></lightning-button>
+        </lightning-record-edit-form>
     </lightning-card>
 </template>
 
 JS: ===================================================================
 
-import { LightningElement, wire } from 'lwc';
-import getClientDueDiligenceRecords from '@salesforce/apex/getFieldsRecords.getClientDueDiligenceRecords';
+import { LightningElement } from 'lwc';
+import { getObjectInfo } from 'lightning/uiObjectInfoApi';
+import CLIENT_DUE_DILIGENCE_OBJECT from '@salesforce/schema/Client_Due_Diligence__mdt';
 
-export default class YourLWC extends LightningElement {
-    @wire(getClientDueDiligenceRecords)
+export default class CustomMetadataExample extends LightningElement {
     clientDueDiligenceRecords;
+
+    async connectedCallback() {
+        const objectInfo = await getObjectInfo({ objectApiName: CLIENT_DUE_DILIGENCE_OBJECT.objectApiName });
+        this.clientDueDiligenceRecords = objectInfo.recordTypeInfos;
+    }
 }
+
 
 
 ApexClass: =====================
