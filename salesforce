@@ -1,13 +1,25 @@
 html:=====================================================================
 
 <template>
-  <lightning-card title="Custom Metadata Example">
-    <div class="slds-p-around_medium">
-      <lightning-input label="Fields API Name" value={fieldsApi} onchange={handleFieldsApiChange}></lightning-input>
-      <lightning-input label="Help Text" value={helpText} onchange={handleHelpTextChange}></lightning-input>
-      <lightning-button label="Save" onclick={saveCustomMetadata}></lightning-button>
-    </div>
-  </lightning-card>
+    <template if:true={objectInfo.data}>
+        <lightning-record-edit-form object-api-name={CLIENT_DUE_DILIGENCE_OBJECT}>
+            <lightning-messages></lightning-messages>
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col">
+                    <lightning-input-field field-name="Name"></lightning-input-field>
+                </div>
+                <div class="slds-col">
+                    <lightning-input-field field-name="FieldsAPI__c"></lightning-input-field>
+                </div>
+                <div class="slds-col">
+                    <lightning-input-field field-name="FieldHelp__c"></lightning-input-field>
+                </div>
+                <div class="slds-col">
+                    <lightning-input-field field-name="Manage__c"></lightning-input-field>
+                </div>
+            </div>
+        </lightning-record-edit-form>
+    </template>
 </template>
 
 
@@ -16,36 +28,11 @@ JS: ===================================================================
 import { LightningElement, track } from 'lwc';
 import { createRecord } from 'lightning/uiRecordApi';
 import CUSTOM_METADATA_OBJECT from '@salesforce/schema/ClientDueDiligence__mdt';
-import FIELDS_API_FIELD from '@salesforce/schema/ClientDueDiligence__mdt.FieldsApi__c';
-import HELP_TEXT_FIELD from '@salesforce/schema/ClientDueDiligence__mdt.HelpText__c';
+export default class MyLWCComponent extends LightningElement {
+    @wire(getObjectInfo, { objectApiName: CLIENT_DUE_DILIGENCE_OBJECT })
+    objectInfo;
 
-export default class CustomMetadataExample extends LightningElement {
-  @track fieldsApi = '';
-  @track helpText = '';
-
-  handleFieldsApiChange(event) {
-    this.fieldsApi = event.target.value;
-  }
-
-  handleHelpTextChange(event) {
-    this.helpText = event.target.value;
-  }
-
-  saveCustomMetadata() {
-    const fields = {};
-    fields[FIELDS_API_FIELD.fieldApiName] = this.fieldsApi;
-    fields[HELP_TEXT_FIELD.fieldApiName] = this.helpText;
-
-    const recordInput = { apiName: CUSTOM_METADATA_OBJECT.objectApiName, fields };
-
-    createRecord(recordInput)
-      .then((result) => {
-        console.log('Custom metadata record created with Id:', result.id);
-      })
-      .catch((error) => {
-        console.error('Error creating custom metadata record:', error);
-      });
-  }
+    // Rest of your component's code...
 }
 
 
