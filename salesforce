@@ -1,38 +1,22 @@
 html:=====================================================================
-
 <template>
-    <template if:true={objectInfo.data}>
-        <lightning-record-edit-form object-api-name={CLIENT_DUE_DILIGENCE_OBJECT}>
-            <lightning-messages></lightning-messages>
-            <div class="slds-grid slds-gutters">
-                <div class="slds-col">
-                    <lightning-input-field field-name="Name"></lightning-input-field>
-                </div>
-                <div class="slds-col">
-                    <lightning-input-field field-name="FieldsAPI__c"></lightning-input-field>
-                </div>
-                <div class="slds-col">
-                    <lightning-input-field field-name="FieldHelp__c"></lightning-input-field>
-                </div>
-                <div class="slds-col">
-                    <lightning-input-field field-name="Manage__c"></lightning-input-field>
-                </div>
-            </div>
-        </lightning-record-edit-form>
-    </template>
+    <lightning-card title="Client Due Diligence">
+        <template if:true={clientDueDiligenceRecords.data}>
+            <template for:each={clientDueDiligenceRecords.data} for:item="record">
+                <lightning-input label={record.FieldsApi} value={record.HelpText} key={record.FieldsApi}></lightning-input>
+            </template>
+        </template>
+    </lightning-card>
 </template>
-
 
 JS: ===================================================================
 
-import { LightningElement, track } from 'lwc';
-import { createRecord } from 'lightning/uiRecordApi';
-import CUSTOM_METADATA_OBJECT from '@salesforce/schema/ClientDueDiligence__mdt';
-export default class MyLWCComponent extends LightningElement {
-    @wire(getObjectInfo, { objectApiName: CLIENT_DUE_DILIGENCE_OBJECT })
-    objectInfo;
+import { LightningElement, wire } from 'lwc';
+import getClientDueDiligenceRecords from '@salesforce/apex/getFieldsRecords.getClientDueDiligenceRecords';
 
-    // Rest of your component's code...
+export default class YourLWC extends LightningElement {
+    @wire(getClientDueDiligenceRecords)
+    clientDueDiligenceRecords;
 }
 
 
