@@ -1,408 +1,78 @@
-html:
+html:=====================================================================
 
 <template>
-   
-    <div class="slds-grid slds-card slds-grid_align_spread">         
-        <lightning-card  class="blue-icon spacing-large slds-float_left slds-col" title="Open a Support Case" icon-name="utility:news">
-            <!-- <span>(average response time is less than 4 hours)</span> -->
-            <p class="slds-p-horizontal_large">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>              
-        </lightning-card>
-        <lightning-button class="slds-button_neutral slds-col slds-align_absolute-center" variant="brand" label="CONTACT US" slot="actions" onclick={showModal}></lightning-button> 
+  <lightning-card title="Custom Metadata Example">
+    <div class="slds-p-around_medium">
+      <lightning-input label="Fields API Name" value={fieldsApi} onchange={handleFieldsApiChange}></lightning-input>
+      <lightning-input label="Help Text" value={helpText} onchange={handleHelpTextChange}></lightning-input>
+      <lightning-button label="Save" onclick={saveCustomMetadata}></lightning-button>
     </div>
-        <template if:true={openModal}>  
-          <div class="slds-modal slds-fade-in-open slds-backdrop" >  
-            <div class="slds-modal__container">  
-              <!---HEADER Section-->  
-              <div class="slds-modal__header" style="display:flex"> 
-                <div id="variants" class="slds-p-vertical_x-small slds-grid slds-grid_vertical-align-left">                                
-                    <lightning-icon icon-name="utility:news" alternative-text="Contact" variant="brand" class="blue-icon slds-col slds-p-right_small"> </lightning-icon>
-                    
-                    <lightning-formatted-text class="blue-text slds-form-element__label slds-text-heading_medium slds-col" value="Open a Support Case"></lightning-formatted-text>
-                 </div>    
-               
-                <lightning-button-icon icon-name="utility:close" alternative-text="Close this window" size="large"  
-                  variant="bare-inverse" onclick={closeModal} class="slds-modal__close">  
-                </lightning-button-icon> 
-              </div>  
-              <!---Body Section-->  
-              <div class="slds-modal__content slds-p-around_medium">   
-                    <template if:true={caseOriginValues.data}>
-                            <a href="#"><u><b>Track My Cases</b></u></a>
-                    <lightning-combobox class="borderForm slds-form-element__static" name="progress" label="Category" value={value} placeholder="Select Request Category" 
-                            options={caseOriginValues.data.values} onchange={handleChange} style="padding-top:4px">
-                    </lightning-combobox>                     
-                    </template>
-                    <div class="slds-grid slds-gutters">
-               <div class="slds-col">
-                    <template if:true={caseOriginValue.data}>                    
-                        <lightning-combobox name="progress" label="Client" value={value} placeholder="Select Client" 
-                        options={accountList} onchange={handleChange1}>
-                       </lightning-combobox>                
-                    </template>
-                </div>
-                
-                <div class="slds-col">
-                    <template if:true={caseOriginValue.data}>                    
-                        <lightning-combobox name="progress" label="Card1" value={value} placeholder="Select Card" 
-                        options={getcaseOptions} onchange={handleChange}>
-                       </lightning-combobox>                
-                    </template>
-                </div>
-               
-                </div>
-                <div class="slds-p-horizontal_small">
-                    <div class="row">
-                        <div class="slds-form-element">
-                            <div class="slds-form-element__control">
-                                <div class="slds-combobox_container">
-                                    <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false"
-                                        aria-haspopup="listbox" role="combobox">
-                                        <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
-                                            role="none">
-                                            <lightning-input type="text" id="combobox-id-16" value={accountName}
-                                                onchange={handleKeyChange} onkeydown={handleClick} onclick={handleClick}
-                                                onblur={handleClick} aria-activedescendant="option1" label='Fianacial Account'
-                                                aria-autocomplete="list" aria-controls="listbox-id-12" role="textbox"
-                                                placeholder="Search..."></lightning-input>                                   
-                                        </div>
-                                        <!-- Start : Parent Search Result -->
-                                        <div if:true={messageResult}>
-                                            No Result Found!
-                                        </div>
-                                        <template if:true={showSearchedValues}>
-                                            <div class="slds-box" style="height: 130px; overflow-y: scroll;">
-                                                <ul class="" role="">
-                                                    <template for:each={accountList} for:item="actObj">
-                                                        <li class="slds-p-around_x-small" style="cursor: pointer;" key={actObj.Id}
-                                                            onclick={handleParentSelection} data-value={actObj.Id}
-                                                            data-label={actObj.Name}>
-                                                            {actObj.Name}
-                                                        </li>
-                                                    </template>
-                                                </ul>
-                                            </div>
-                                        </template>
-                                    </div>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <lightning-textarea name="Description" label="Description" onchange={onChangeDescription} ></lightning-textarea>
-    
-                </div>
-                    <lightning-file-upload
-                    name="fileUploader"
-                    accept={acceptedFormats}
-                    record-id={recordId}
-                    onuploadfinished={handleUploadFinished}
-                    multiple>
-                </lightning-file-upload>
-                </div> 
-              
-              <!---Footer Section-->  
-              <div class="slds-modal__footer ">  
-                <lightning-button class="slds-align_absolute-center" label="SUBMIT Case" variant="brand" onclick={saverecord}>  
-                </lightning-button>  
-              </div>  
-            </div>  
-          </div>
-          
-          
-        </template>  
-        
-      </template> 
-      
-      
-      
-      
-      JS::
-      
-      import { LightningElement,wire,track,api } from 'lwc';
-import { getPicklistValues } from 'lightning/uiObjectInfoApi';
-import CaseClient from '@salesforce/schema/Case.Case_Category__c';
-import CaseCategory from '@salesforce/schema/Case.Case_Category__c';
-import { getObjectInfo } from 'lightning/uiObjectInfoApi';
-import CASE_OBJECT from '@salesforce/schema/Case';
-import {ShowToastEvent} from 'lightning/platformShowToastEvent';
-import DESCRIPTION_FIELD from "@salesforce/schema/Case.Description";
-import { createRecord } from "lightning/uiRecordApi";
-import { NavigationMixin } from 'lightning/navigation';
-import getAccounts from '@salesforce/apex/AccountSearchController.getAccounts';
-import getcontactDetails from '@salesforce/apex/ContactToSupportContorller.getcontactDetails';
-import getcaseDetails from '@salesforce/apex/ContactToSupportContorller.getcaseDetails';
-export default class ContactSupport extends NavigationMixin(LightningElement) {
+  </lightning-card>
+</template>
 
-   @track description;
-    @track openModal = false;
-    @api recordId;
-	@track category;
-    @track client;
-    @track accountName = '';
-    @track accountList = [];     
-    @track accountId; 
-    @track isshow=false;
-    @track messageResult=false;
-    @track isShowResult = true;   
-    @track showSearchedValues = false;
-    @track getcaseOptions=[];
-    @track getOptions=[];
-    @wire(getcontactDetails)
-    accdata ({error, data}) {
-       //this.messageResult=false;
-       if (data) {
-        //alert('data---'+JSON.stringify(data));
-           // TODO: Error handling 
-           console.log('data option ::'+JSON.stringify(data));
-           if(data.length>0){
-               this.getOptions= data;
-           }            
-           else if(data.length==0){
-                         
-           }  
-               
-       } else if (error) {
-        // alert('data---'+error);
-           // TODO: Data handling
-           console.log('data error ::'+ error);
-       }
-   }
 
-   @wire(getcaseDetails)
-   demodata ({error, data}) {
-      //this.messageResult=false;
-      if (data) {
-    //    alert('data---'+JSON.stringify(data));
-          // TODO: Error handling 
-          console.log('data option ::'+JSON.stringify(data));
-          if(data.length>0){
-              this.getcaseOptions= data;
-          }            
-          else if(data.length==0){
-                        
-          }  
-              
-      } else if (error) {
-    //    alert('data---'+error);
-          // TODO: Data handling
-          console.log('data error ::'+ error);
-      }
+JS: ===================================================================
+
+import { LightningElement, track } from 'lwc';
+import { createRecord } from 'lightning/uiRecordApi';
+import CUSTOM_METADATA_OBJECT from '@salesforce/schema/ClientDueDiligence__mdt';
+import FIELDS_API_FIELD from '@salesforce/schema/ClientDueDiligence__mdt.FieldsApi__c';
+import HELP_TEXT_FIELD from '@salesforce/schema/ClientDueDiligence__mdt.HelpText__c';
+
+export default class CustomMetadataExample extends LightningElement {
+  @track fieldsApi = '';
+  @track helpText = '';
+
+  handleFieldsApiChange(event) {
+    this.fieldsApi = event.target.value;
   }
 
-
-    handleChange1(event){
-        this.client= event.target.value;
-    }
-   
-   handleChange(event)
-   {
-   this.category=event.target.value;
-   }
-
-    saverecord() {
-        
-        const fields = {};
-    
-        fields[DESCRIPTION_FIELD.fieldApiName] = this.description;
-	
-        fields[CaseCategory.fieldApiName] = this.category;
-        fields[CaseClient.fieldApiName] = this.client;
-
-      
-        const recordInput = { apiName: CASE_OBJECT.objectApiName, fields };
-
-        createRecord(recordInput)
-        .then(record => {
-            this.dispatchEvent(
-                new ShowToastEvent({
-                    title: 'Success',
-                    message: 'Case created',
-                    variant: 'success',
-                }),
-            );
-            this[NavigationMixin.Navigate]({
-                type: 'standard__recordPage',
-                attributes: {
-                    recordId: record.id,
-                    objectApiName: 'Case',
-                    actionName: 'view'
-                },
-            });
-
-
-
-        })
-        .catch(error => {
-            this.dispatchEvent(
-                new ShowToastEvent({
-                    title: 'Error creating record',
-                    message: error.body.message,
-                    variant: 'error',
-                }),
-            );
-        });
-	  
-
-      
-      }
-    onChangeDescription(event) {
-        this.description = event.target.value;
-        
-    }
-
-    showModal() {
-        this.openModal = true;
-    }
-    closeModal() {
-        this.openModal = false;
-    }
-    
-    get acceptedFormats() {
-        return ['.pdf', '.png','.jpg','.jpeg'];
-    }
-    handleUploadFinished(event) {
-        // Get the list of uploaded files
-        const uploadedFiles = event.detail.files;
-        let uploadedFileNames = '';
-        for(let i = 0; i < uploadedFiles.length; i++) {
-            uploadedFileNames += uploadedFiles[i].name + ', ';
-        }
-        this.dispatchEvent(
-            new ShowToastEvent({
-                title: 'Success',
-                message: uploadedFiles.length + ' Files uploaded Successfully: ' + uploadedFileNames,
-                variant: 'success',
-            }),
-        );
-    }
-
-    @wire(getAccounts, {actName:'$accountName'})
-    retrieveAccounts ({error, data}) {
-       this.messageResult=false;
-       if (data) {
-           // TODO: Error handling 
-           console.log('data::'+data.length);
-           if(data.length>0){
-               this.accountList = data;                
-               this.showSearchedValues = true; 
-               this.messageResult=false;
-           }            
-           else if(data.length==0){
-               this.accountList = [];                
-               this.showSearchedValues = false;
-               if(this.accountName!='')
-                   this.messageResult=true;               
-           }  
-               
-       } else if (error) {
-           // TODO: Data handling
-           this.accountId =  '';
-           this.accountName =  '';
-           this.accountList=[];           
-           this.showSearchedValues = false;
-           this.messageResult=true;   
-       }
-   }
-   handleClick(event){
-    this.isShowResult = true;   
-    this.messageResult=false;        
+  handleHelpTextChange(event) {
+    this.helpText = event.target.value;
   }
-  handleKeyChange(event){       
-    this.messageResult=false; 
-    this.accountName = event.target.value;
-  }  
-  handleParentSelection(event){        
-    this.showSearchedValues = false;
-    this.isShowResult = false;
-    this.messageResult=false;
-    //Set the parent calendar id
-    this.accountId =  event.target.dataset.value;
-    //Set the parent calendar label
-    this.accountName =  event.target.dataset.label;      
-     
-}
-handleOpenModal(event){
-    this.isshow = true;
-    console.log('balaji:::');
-}
 
+  saveCustomMetadata() {
+    const fields = {};
+    fields[FIELDS_API_FIELD.fieldApiName] = this.fieldsApi;
+    fields[HELP_TEXT_FIELD.fieldApiName] = this.helpText;
 
-    @wire(getObjectInfo, { objectApiName: CASE_OBJECT })
-    contactInfo;
+    const recordInput = { apiName: CUSTOM_METADATA_OBJECT.objectApiName, fields };
 
-    @wire(getPicklistValues,
-        {
-            recordTypeId: '$contactInfo.data.defaultRecordTypeId',
-            fieldApiName: CaseCategory
-        }
-    )
-    caseOriginValues;
-
-    @wire(getPicklistValues,
-        {
-            recordTypeId: '$contactInfo.data.defaultRecordTypeId',
-            fieldApiName: CaseClient
-        }
-    )
-    caseOriginValue;
-   
-
+    createRecord(recordInput)
+      .then((result) => {
+        console.log('Custom metadata record created with Id:', result.id);
+      })
+      .catch((error) => {
+        console.error('Error creating custom metadata record:', error);
+      });
+  }
 }
 
 
-cls:::
+ApexClass: =====================
 
+public class GetFieldsRecords {
+  public class CustomMetadataWrapper {
+    public String fieldsApi;
+    public String helpText;
 
-public with sharing class ContactToSupportContorller {
-  
-    public class options{
-        @AuraEnabled public string label{get;set;}
-        @AuraEnabled public string value{get;set;}
-       
+    public CustomMetadataWrapper(String fieldsApi, String helpText) {
+      this.fieldsApi = fieldsApi;
+      this.helpText = helpText;
     }
-    @AuraEnabled(cacheable = true)
-    public static List<options>  getcontactDetails(){
-        try {
-            List<Snapshot_Account__c > getSnapshot = [select id,name,Account__r.Name, Account_Number__c  from Snapshot_Account__c ];
-            List<options> getoption = new List<options>();
-            for(Snapshot_Account__c sanap : getSnapshot ){
-                options op = new options();
-                op.label= sanap.Account__r.Name;
-                op.value = sanap.id;
-                getoption.add(op);
-                system.debug('getoption'+getoption);
-            }
-       // system.debug('options---',getoption);
-            return getoption;
+  }
 
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
-        }
+  public static List<CustomMetadataWrapper> fetchClientDueDiligenceMetadata() {
+    List<CustomMetadataWrapper> metadataList = new List<CustomMetadataWrapper>();
+
+    // Query the custom metadata records
+    List<ClientDueDiligence__mdt> records = [SELECT FieldsApi__c, HelpText__c FROM ClientDueDiligence__mdt];
+
+    for (ClientDueDiligence__mdt record : records) {
+      CustomMetadataWrapper metadata = new CustomMetadataWrapper(record.FieldsApi__c, record.HelpText__c);
+      metadataList.add(metadata);
     }
-    @AuraEnabled(cacheable = true)
-    public static List<options>  getcaseDetails(){
-      
-                        try {
-                            List<case > getSnapshot = [select id,Financial_Account__r.Name_On_Card__c, Case_Category__c ,Financial_Account_Number__c,Financial_Account__c from case where Case_Category__c != null];
-                            List<options> getoption = new List<options>();
-                            for(case sanap : getSnapshot ){
-                                options op = new options();
-                                op.label= sanap.Case_Category__c;
-                                op.value = sanap.id;
-                                getoption.add(op);
-                                system.debug('getoption'+getoption);
-                            }
-                       // system.debug('options---',getoption);
-                            return getoption;
-                        }
-                         catch (Exception e) {
-                            throw new AuraHandledException(e.getMessage());
-                        }
-                    
-                    }
-                }
 
-   
-
+    return metadataList;
+  }
+}
