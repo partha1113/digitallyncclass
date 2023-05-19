@@ -1,60 +1,69 @@
 html:=====================================================================
 <template>
-    <lightning-card title="Client Due Diligence">
-        <template if:true={metadataRecords}>
-            <template for:each={metadataRecords} for:item="record">
-                <div key={record.name}>
-                    <lightning-input label="Name" value={record.name} disabled></lightning-input>
-                    <lightning-input label="Fields API" value={record.fieldsAPI} disabled></lightning-input>
-                    <lightning-input label="Field Help" value={record.fieldHelp} disabled></lightning-input>
-                </div>
+    <lightning-card title="Client Due Diligence Fields">
+        <template if:true={clientDueDiligenceList}>
+            <template for:each={clientDueDiligenceList} for:item="field">
+                <lightning-input key={field.name}
+                                 label={field.name}
+                                 value={field.fieldsAPI}
+                                 title={field.fieldHelp}>
+                </lightning-input>
             </template>
+        </template>
+        <template if:false={clientDueDiligenceList}>
+            <p>No records found.</p>
         </template>
     </lightning-card>
 </template>
 
 
+
 JS: ===================================================================
 
 import { LightningElement, wire } from 'lwc';
-import getFieldsRecords from '@salesforce/apex/getFieldsRecords.getMetadataRecords';
+import getClientDueDiligenceRecords from '@salesforce/apex/getFieldsRecords.getClientDueDiligenceRecords';
 
-export default class YourLWCComponent extends LightningElement {
-    metadataRecords;
+export default class DisplayFields extends LightningElement {
+    clientDueDiligenceList;
 
-    @wire(getFieldsRecords)
-    wiredMetadataRecords({ error, data }) {
+    // Call the Apex method to fetch the records
+    @wire(getClientDueDiligenceRecords)
+    wiredClientDueDiligence({ error, data }) {
         if (data) {
-            this.metadataRecords = data;
+            this.clientDueDiligenceList = data;
         } else if (error) {
+            // Handle error
             console.error(error);
         }
     }
 }
 
 
+
 ApexClass: =====================
 
-public with sharing class getFieldsRecords {
-    public static List<clientDueDiligenceWrapper> getMetadataRecords() {
-        List<clientDueDiligenceWrapper> metadataRecords = new List<clientDueDiligenceWrapper>();
-        
-        // Retrieve records from custom metadata
-        List<clientDueDiligence__mdt> records = [SELECT Name, FieldsAPI, FieldHelp FROM clientDueDiligence__mdt];
-        
-        // Create wrapper instances for each record
+public class getFieldsRecords {
+    public static List<ClientDueDiligenceWrapper> getClientDueDiligenceRecords() {
+        List<ClientDueDiligenceWrapper> wrapperList = new List<ClientDueDiligenceWrapper>();
+
+        // Fetch the custom metadata records
+        List<clientDueDiligence__mdt> records = [SELECT name, fieldsAPI, fieldHelp FROM clientDueDiligence__mdt];
+
+        // Convert the records into wrapper objects
         for (clientDueDiligence__mdt record : records) {
-            clientDueDiligenceWrapper wrapper = new clientDueDiligenceWrapper();
-            wrapper.name = record.Name;
-            wrapper.fieldsAPI = record.FieldsAPI;
-            wrapper.fieldHelp = record.FieldHelp;
-            metadataRecords.add(wrapper);
+            ClientDueDiligenceWrapper wrapper = new ClientDueDiligenceWrapper();
+            wrapper.name = record.name;
+            wrapper.fieldsAPI = record.fieldsAPI;
+            wrapper.fieldHelp = record.fieldHelp;
+
+            wrapperList.add(wrapper);
         }
-        
-        return metadataRecords;
+
+        return wrapperList;
     }
-    
-    public class clientDueDiligenceWrapper {
+
+    // Wrapper class for the custom metadata records
+    public class ClientDueDiligenceWrapper {
         public String name;
         public String fieldsAPI;
         public String fieldHelp;
