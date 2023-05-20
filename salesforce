@@ -70,4 +70,9 @@ public class getFieldsRecords {
     }
 }
 =============================
-this.myList = this.myList.filter(value => value !== this.removeValue);
+var setValue = fetchMethodJsonArray;
+const dataRemoved = setValue.filter((el) => {
+  return el.val !== "One";
+});
+
+console.log(dataRemoved);
