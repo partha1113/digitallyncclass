@@ -69,4 +69,5 @@ public class getFieldsRecords {
         public String fieldHelp;
     }
 }
-
+=============================
+this.myList = this.myList.filter(value => value !== this.removeValue);
