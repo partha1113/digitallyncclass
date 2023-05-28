@@ -70,9 +70,5 @@ public class getFieldsRecords {
     }
 }
 =============================
-var setValue = fetchMethodJsonArray;
-const dataRemoved = setValue.filter((el) => {
-  return el.val !== "One";
-});
-
-console.log(dataRemoved);
+var getSelectedValue = document.querySelector(   
+                'input[name="season"]:checked');
