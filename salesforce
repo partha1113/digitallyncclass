@@ -78,3 +78,5 @@ if(getSelectedValue != null) {
                     = getSelectedValue.value   
                     + " season is selected";   
             }
+            
+           eval("$A.get('e.force:refreshView').fire();");
