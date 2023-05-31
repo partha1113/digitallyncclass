@@ -80,3 +80,10 @@ if(getSelectedValue != null) {
             }
             
            eval("$A.get('e.force:refreshView').fire();");
+
+
+this.teamRecords.map((item, index) => {
+    this.template.querySelectorAll('.descArea').forEach(element => {
+        element.innerHTML = item.item.Description__c; //Contains HTML elements
+    });
+})
