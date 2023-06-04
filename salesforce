@@ -87,3 +87,12 @@ this.teamRecords.map((item, index) => {
         element.innerHTML = item.item.Description__c; //Contains HTML elements
     });
 })
+===========================================================
+
+while (copyText.includes('{!')) {
+			let index1 = copyText.indexOf('{!');
+			let index2 = copyText.indexOf('}');
+			let fieldValue = copyText.substring(index1 + 2, index2);
+			copyText = copyText.substring(0, index1) + objData.obj[fieldValue] + copyText.substring(index2 + 1);
+		}
+		return eval(copyText);
