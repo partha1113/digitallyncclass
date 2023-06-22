@@ -89,22 +89,22 @@ this.teamRecords.map((item, index) => {
 })
 ===========================================================
 function arrayDifference(arr1, arr2) {
-  const map = new Map();
-  
-  // Add all items from arr1 to the map
-  arr1.forEach(item => {
-    map.set(item, true);
-  });
-  
-  // Remove items from arr2 that are present in the map
-  arr2.forEach(item => {
-    if (map.has(item)) {
-      map.delete(item);
-    }
-  });
-  
-  // Retrieve the remaining items from the map
-  const difference = Array.from(map.keys());
-  
+  const difference = [];
+
+  // Check if each item in arr1 is present in arr2
+  const isDifferent = arr1.every(item => !arr2.includes(item));
+
+  // If arr1 is different from arr2, populate the difference array
+  if (isDifferent) {
+    difference.push(...arr1);
+  }
+
   return difference;
 }
+
+const array1 = [1, 2, 3, 4, 5];
+const array2 = [3, 4, 5, 6, 7];
+
+const difference = arrayDifference(array1, array2);
+console.log(difference);
+// Output: [1, 2]
