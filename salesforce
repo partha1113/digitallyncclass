@@ -88,10 +88,23 @@ this.teamRecords.map((item, index) => {
     });
 })
 ===========================================================
-getContactList()
-        .then(result =>{
-            this.contacts = result;
-        })
-        .catch(error =>{
-            this.errorMsg = error;
-        })
+function arrayDifference(arr1, arr2) {
+  const map = new Map();
+  
+  // Add all items from arr1 to the map
+  arr1.forEach(item => {
+    map.set(item, true);
+  });
+  
+  // Remove items from arr2 that are present in the map
+  arr2.forEach(item => {
+    if (map.has(item)) {
+      map.delete(item);
+    }
+  });
+  
+  // Retrieve the remaining items from the map
+  const difference = Array.from(map.keys());
+  
+  return difference;
+}
